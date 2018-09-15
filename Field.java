@@ -29,6 +29,6 @@ public class Field {
 			int y = (int) (Math.random() * field.length);
 			field[y][x] = 's';
 		}
-
+ 
 	}
 }
