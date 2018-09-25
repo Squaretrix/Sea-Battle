@@ -1,11 +1,12 @@
 
 public class Field {
-
+	final char WATER = 'o';
+	final char SHIP = 'X';
 	public char[][] create(int n) {
 		char[][] field = new char[n][n];
 		for (int y = 0; y < field.length; y++) {
 			for (int x = 0; x < field.length; x++) {
-				field[y][x] = 'w';
+				field[y][x] = WATER;
 			}
 		}
 		return field;
@@ -22,35 +23,37 @@ public class Field {
 
 	public void place(char[][] field, int ships) {
 		int counter = 0;
-
+		int outb = 0;
 		while (counter < ships) {
 			int x = (int) (Math.random() * field.length);
 			int y = (int) (Math.random() * field.length);
+			if (countAround(field, x, y) == true) {
+				field[y][x] = SHIP;
+				counter++;
+			}else {
+				outb++;
+			}
+			if (outb>100) {
+				System.out.println("Unable to place");
+				System.exit(0);
+			}
+		}
+	}
 
-			if (field[y][x] != 's') {
-				for (int i = 0; i < 3; i++) {
-					for (int j = 0; j < 3; j++) {
-						if (field[i][j] > field.length || field[i][j] < field.length) {
-							System.out.println("im if");
-							continue;
-						} else {
-							if (field[y+1][x]=='s'||field[y-1][x-1]=='s') {
-								continue;
-							}else {
-								field[y][x] = 's';
-							}
-							
-						}
+	public boolean countAround(char[][] field, int x, int y) {
+
+		for (int i = x - 1; i <= x + 1; i++) {
+			for (int j = y - 1; j <= y + 1; j++) {
+				if (i < 0 || j < 0 || j >= field.length || i >= field.length) {
+				} else {
+					if (field[j][i] == SHIP) {
+						return false;
 					}
 				}
 
-				counter++;
-			} else {
-				System.out.println("gleich");
-				continue;
 			}
-
 		}
+		return true;
 
 	}
 }
