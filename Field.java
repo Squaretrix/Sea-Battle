@@ -1,11 +1,12 @@
-
 public class Field {
 	final char WATER = 'o';
 	final char SHIP = 'X';
-	public char[][] create(int n) {
-		char[][] field = new char[n][n];
+
+	public char[][] create(int l , int b) {
+		char[][] field = new char[b][l];
+		
 		for (int y = 0; y < field.length; y++) {
-			for (int x = 0; x < field.length; x++) {
+			for (int x = 0; x < field[0].length; x++) {
 				field[y][x] = WATER;
 			}
 		}
@@ -14,7 +15,7 @@ public class Field {
 
 	public void print(char[][] field) {
 		for (int y = 0; y < field.length; y++) {
-			for (int x = 0; x < field.length; x++) {
+			for (int x = 0; x < field[0].length; x++) {
 				System.out.print(field[y][x]);
 			}
 			System.out.println();
@@ -25,15 +26,15 @@ public class Field {
 		int counter = 0;
 		int outb = 0;
 		while (counter < ships) {
-			int x = (int) (Math.random() * field.length);
+			int x = (int) (Math.random() * field[0].length);
 			int y = (int) (Math.random() * field.length);
 			if (countAround(field, x, y) == true) {
 				field[y][x] = SHIP;
 				counter++;
-			}else {
+			} else {
 				outb++;
 			}
-			if (outb>100) {
+			if (outb > 100) {
 				System.out.println("Unable to place");
 				System.exit(0);
 			}
@@ -44,7 +45,7 @@ public class Field {
 
 		for (int i = x - 1; i <= x + 1; i++) {
 			for (int j = y - 1; j <= y + 1; j++) {
-				if (i < 0 || j < 0 || j >= field.length || i >= field.length) {
+				if (i < 0 || j < 0 || j >= field.length || i >= field[0].length) {
 				} else {
 					if (field[j][i] == SHIP) {
 						return false;
